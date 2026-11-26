@@ -2,19 +2,22 @@
 
 **Enterprise AI · RAG · MCP · Human-in-the-Loop**
 
-![Python](https://img.shields.io/badge/Python-3776AB?style=flat)
-![LangChain](https://img.shields.io/badge/LangChain-218578?style=flat)
-![LangGraph](https://img.shields.io/badge/LangGraph-318F83?style=flat)
-![MCP](https://img.shields.io/badge/MCP-555555?style=flat)
-![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=flat)
-![Gemini](https://img.shields.io/badge/Gemini-4285F4?style=flat)
-![React](https://img.shields.io/badge/React-1686A7?style=flat)
-![Node.js](https://img.shields.io/badge/Node.js-43853D?style=flat)
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-336791?style=flat)
-![Prisma](https://img.shields.io/badge/Prisma-475569?style=flat)
-![ChromaDB](https://img.shields.io/badge/ChromaDB-967238?style=flat)
-![SQLite](https://img.shields.io/badge/SQLite-307AA8?style=flat)
-![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat)
+![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white)
+![LangChain](https://img.shields.io/badge/LangChain-1C3C3C?style=flat-square&logo=langchain&logoColor=white)
+![LangGraph](https://img.shields.io/badge/LangGraph-1C3C3C?style=flat-square)
+![MCP](https://img.shields.io/badge/MCP-000000?style=flat-square)
+![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=flat-square&logo=fastapi&logoColor=white)
+![Gemini](https://img.shields.io/badge/Gemini-4285F4?style=flat-square&logo=googlegemini&logoColor=white)
+![React](https://img.shields.io/badge/React-20232A?style=flat-square&logo=react&logoColor=61DAFB)
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat-square&logo=nodedotjs&logoColor=white)
+![Express](https://img.shields.io/badge/Express-000000?style=flat-square&logo=express&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=flat-square&logo=postgresql&logoColor=white)
+![Prisma](https://img.shields.io/badge/Prisma-2D3748?style=flat-square&logo=prisma&logoColor=white)
+![ChromaDB](https://img.shields.io/badge/ChromaDB-FF6F61?style=flat-square)
+![SQLite](https://img.shields.io/badge/SQLite-003B57?style=flat-square&logo=sqlite&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)
+![Nginx](https://img.shields.io/badge/Nginx-009639?style=flat-square&logo=nginx&logoColor=white)
 
 An enterprise AI copilot that connects structured business data and internal knowledge through MCP, Retrieval-Augmented Generation, persistent conversational memory, and human-approved business operations.
 
