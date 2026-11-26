@@ -1,0 +1,104 @@
+name: enterprise-ai-copilot
+
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-local_demo_password}
+      POSTGRES_DB: enterprise_ai
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/init.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+      - ./database/seed.sql:/docker-entrypoint-initdb.d/02-seed.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U postgres -d enterprise_ai"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    environment:
+      DATABASE_URL: postgresql://postgres:${POSTGRES_PASSWORD:-local_demo_password}@postgres:5432/enterprise_ai?schema=public
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3001/health').then(r => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+
+  mcp:
+    build:
+      context: .
+      dockerfile: Dockerfile.python
+      target: mcp
+    environment:
+      BUSINESS_API_URL: http://backend:3001
+      MCP_HOST: 0.0.0.0
+      MCP_PORT: 8001
+    depends_on:
+      backend:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8001/health', timeout=4)"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+
+  agent:
+    build:
+      context: .
+      dockerfile: Dockerfile.python
+      target: agent
+    environment:
+      GOOGLE_API_KEY: ${GOOGLE_API_KEY:?Set GOOGLE_API_KEY in the root .env file}
+      BUSINESS_API_URL: http://backend:3001
+      MCP_SERVER_URL: http://mcp:8001/mcp
+      CORS_ORIGINS: '["http://localhost:${WEB_PORT:-5173}"]'
+      CONTEXT_TOKEN_LIMIT: ${CONTEXT_TOKEN_LIMIT:-6000}
+      CONTEXT_RECENT_TURNS: ${CONTEXT_RECENT_TURNS:-6}
+      HF_HOME: /app/.cache/huggingface
+      ANONYMIZED_TELEMETRY: "False"
+    volumes:
+      - conversations:/app/agent/data
+      - vectors:/app/agent/vectorstore
+      - documents:/app/backend/uploads
+      - embeddings_cache:/app/.cache/huggingface
+    depends_on:
+      mcp:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=4)"]
+      interval: 10s
+      timeout: 5s
+      start_period: 300s
+      retries: 12
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    ports:
+      - "127.0.0.1:${WEB_PORT:-5173}:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+      agent:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://127.0.0.1/"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+
+volumes:
+  postgres_data:
+  conversations:
+  vectors:
+  documents:
+  embeddings_cache:

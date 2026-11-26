@@ -1,0 +1,34 @@
+# API
+fastapi==0.139.2
+uvicorn==0.51.0
+pydantic==2.13.4
+python-dotenv==1.2.2
+requests==2.34.2
+
+# Agente y modelo
+langchain[mcp]==1.4.0
+langchain-core==1.6.13
+langgraph==1.2.11
+langchain-google-genai==4.2.7
+google-genai==2.12.1
+
+# RAG: PDFs, fragmentos, embeddings y base vectorial
+langchain-community==0.4.2
+langchain-text-splitters==1.1.2
+pypdf==6.14.2
+sentence-transformers==5.6.0
+chromadb==1.5.9
+
+# Pruebas locales de la API con TestClient
+httpx==0.28.1
+anyio==4.14.2
+
+# Cliente MCP y configuración
+fastmcp==4.2.2
+pydantic-settings==2.14.2
+
+# Compatibilidad de OpenTelemetry entre Chroma y FastMCP
+opentelemetry-exporter-otlp-proto-grpc==1.45.2
+
+# Subida de PDFs
+python-multipart==0.0.34

@@ -1,0 +1,65 @@
+# Credenciales y configuración local
+.env
+.env.*
+!.env.example
+!.env.*.example
+
+# Dependencias y compilados
+node_modules/
+venv/
+.venv/
+dist/
+dist-ssr/
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# Cachés y resultados de herramientas
+.cache/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.vite/
+coverage/
+htmlcov/
+*.tsbuildinfo
+
+# Conversaciones e índices generados
+/agent/data/
+/agent/vectorstore*/
+*.sqlite
+*.sqlite3
+*.sqlite*-journal
+*.sqlite*-wal
+*.sqlite*-shm
+
+# Cliente Prisma generado
+/backend/src/generated/
+/backend/generated/
+
+# Logs y archivos del sistema/editor
+logs/
+*.log
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Additional local/editor files (centralized from subdirectory ignore files)
+*.local
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# Private credentials
+*.pem
+*.key
+credentials.json
+service-account*.json
+
+# Only reviewed sample PDFs are publishable; ignore all other uploads.
+/backend/uploads/*
+!/backend/uploads/manual_empleados.pdf
+!/backend/uploads/politica_devoluciones.pdf

@@ -1,0 +1,23 @@
+FROM python:3.14-slim-bookworm AS mcp
+
+ENV PYTHONUNBUFFERED=1 PYTHONDONTWRITEBYTECODE=1 PIP_DISABLE_PIP_VERSION_CHECK=1
+WORKDIR /app
+COPY mcp_server/requirements.txt /tmp/mcp-requirements.txt
+RUN pip install --no-cache-dir -r /tmp/mcp-requirements.txt
+COPY mcp_server ./mcp_server
+EXPOSE 8001
+CMD ["python", "-m", "mcp_server.server"]
+
+FROM mcp AS agent
+
+RUN apt-get update && apt-get install -y --no-install-recommends libgomp1 \
+    && rm -rf /var/lib/apt/lists/*
+COPY agent/requirements.txt /tmp/agent-requirements.txt
+# CPU embeddings: avoid downloading CUDA dependencies in the demo image.
+RUN pip install --no-cache-dir torch==2.13.0 --index-url https://download.pytorch.org/whl/cpu \
+    && pip install --no-cache-dir -r /tmp/agent-requirements.txt
+COPY agent ./agent
+COPY backend/uploads ./backend/uploads
+WORKDIR /app/agent
+EXPOSE 8000
+CMD ["python", "-m", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
